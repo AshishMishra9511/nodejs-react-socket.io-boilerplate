@@ -1,10 +1,10 @@
 'use strict';
-require('dotenv').config({path: '.env'});
+require('dotenv').config({ path: '.env' });
 
 
 var express = require('express'),
   app = express(),
-  port =  process.env.NS_PORT || 3000,
+  port = process.env.NS_PORT || 3000,
   controller = require('./controller');
 
 const server = require('http').Server(app);
@@ -16,9 +16,10 @@ app.get('/', function (req, res) {
 });
 
 io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
+  socket.on('customevent', function (data) {
+    setInterval(function () {
+      socket.emit('FromAPI', { data: new Date() });
+    }, 96);
   });
 });
 
